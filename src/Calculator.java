@@ -1,20 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-
 public class Calculator extends JFrame {
-    public Calculator()
-    {
-        super("Calculator");
-        setDefaultCloseOperation( EXIT_ON_CLOSE );
-        setSize(400, 130);
+    public Calculator() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(400, 230);
         setLocation(400, 130);
         // контейнер
         Container container = getContentPane();
-        container.setLayout (new FlowLayout(FlowLayout.CENTER));
+        container.setLayout(new FlowLayout(FlowLayout.CENTER));
         container.setBackground(Color.WHITE);
-        // добавляю компоненты
-
-
+        setResizable(false);
+        // компоненты
+        JLabel name = new JLabel("           calculator           ");
+        name.setFont(new Font("Serif", Font.PLAIN, 40));
+        name.setBackground(new java.awt.Color(116, 238, 177, 153));
+        name.setOpaque(true);
+        container.add(name);
         JTextField firstNum = new JTextField(15);
         firstNum.setHorizontalAlignment(JTextField.CENTER);
         container.add(firstNum);
@@ -35,66 +36,113 @@ public class Calculator extends JFrame {
         JButton div = new JButton("/");
         container.add(div);
         div.setBackground(Color.lightGray);
-        JTextField itog = new JTextField(20);
+        JButton exp = new JButton("^");
+        container.add(exp);
+        exp.setBackground(Color.lightGray);
+        JTextField itog = new JTextField(31);
         itog.setHorizontalAlignment(JTextField.CENTER);
         container.add(itog);
         div.setBackground(Color.lightGray);
-
-       
+        JLabel expression = new JLabel();
+        expression.setFont(new Font("Serif", Font.PLAIN, 20));
+        expression.setBackground(new java.awt.Color(116, 238, 177, 153));
+        expression.setOpaque(true);
+        container.add(expression);
 
         sum.addActionListener(e -> {
-            int rez = 0;
+            double rez;
             try {
-                rez = Integer.parseInt(firstNum.getText()) + Integer.parseInt(secondNum.getText());
+                rez = Double.parseDouble(firstNum.getText()) + Double.parseDouble(secondNum.getText());
                 label.setText(("+"));
+                if (rez % 1 != 0) {
+                    itog.setText(Double.toString(rez));
+                } else {
+
+                    int res = (int) rez;
+                    itog.setText(Integer.toString(res));
+                }
+                expression.setText("     DONE!     ");
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(container, "Некорректный ввод!");
             }
-            itog.setText(Integer.toString(rez));
+
+
         });
 
         sub.addActionListener(e -> {
-            int rez = 0;
+            double rez;
             try {
-                rez = Integer.parseInt(firstNum.getText()) - Integer.parseInt(secondNum.getText());
+                rez = Double.parseDouble(firstNum.getText()) - Double.parseDouble(secondNum.getText());
                 label.setText(("-"));
+                if (rez % 1 != 0) {
+                    itog.setText(Double.toString(rez));
+                } else {
+
+                    int res = (int) rez;
+                    itog.setText(Integer.toString(res));
+                    expression.setText("     DONE!     ");
+                }
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(container, "Некорректный ввод!");
+                expression.setText("     DONE!     ");
             }
-            itog.setText(Integer.toString(rez));
         });
 
+
         mult.addActionListener(e -> {
-            int rez = 0;
+            double rez;
             try {
-                rez = Integer.parseInt(firstNum.getText()) * Integer.parseInt(secondNum.getText());
+                rez = Double.parseDouble(firstNum.getText()) * Double.parseDouble(secondNum.getText());
                 label.setText(("*"));
+                if (rez % 1 != 0) {
+                    itog.setText(Double.toString(rez));
+                } else {
+
+                    int res = (int) rez;
+                    itog.setText(Integer.toString(res));
+                }
+                expression.setText("     DONE!     ");
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(container, "Некорректный ввод!");
             }
-            itog.setText(Integer.toString(rez));
         });
 
         div.addActionListener(e -> {
-            int rez = 0;
+            double rez;
             try {
-                int var=Integer.parseInt(secondNum.getText());
-                if (var==0) {
-                    JOptionPane.showMessageDialog(container, "На 0 делить нельзя!");
-                } else{
-                    rez = Integer.parseInt(firstNum.getText()) / Integer.parseInt(secondNum.getText());
-                    label.setText(("/"));
+                rez = Double.parseDouble(firstNum.getText()) / Double.parseDouble(secondNum.getText());
+                label.setText(("/"));
+                if (rez % 1 != 0) {
+                    itog.setText(Double.toString(rez));
+                } else {
+                    int res = (int) rez;
+                    itog.setText(Integer.toString(res));
                 }
-
+                expression.setText("     DONE!     ");
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(container, "Некорректный ввод!");
             }
-            itog.setText(Integer.toString(rez));
         });
 
+        exp.addActionListener(e -> {
+            double rez;
+            try {
+                rez = Math.pow(Double.parseDouble(firstNum.getText()), Double.parseDouble(secondNum.getText()));
+                label.setText(("^"));
+                if (rez % 1 != 0) {
+                    itog.setText(Double.toString(rez));
+                } else {
+
+                    int res = (int) rez;
+                    itog.setText(Integer.toString(res));
+                }
+                expression.setText("     DONE!     ");
+            } catch (NumberFormatException e1) {
+                JOptionPane.showMessageDialog(container, "Некорректный ввод!");
+            }
+        });
         setVisible(true);
     }
-
     public static void main(String[] args) {
         new Calculator();
     }
